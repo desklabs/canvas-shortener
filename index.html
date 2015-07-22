@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Canvas Shortener</title>
+    <meta name="description" content="A Desk.com canvas app to shorten URLs using Google URL shortener.">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700,600" media="screen" rel="stylesheet" type="text/css" />
+    <style>
+      html {
+        font-size: 100%;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+
+      html, body {
+        height: 100%;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 13px;
+        line-height: 19px;
+        color: #3e4651;
+        background: #eee;
+        display: flex;
+      }
+
+      input {
+        background-color: rgb(255, 255, 255);
+        border-bottom-color: rgb(224, 224, 224);
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-left-color: rgb(224, 224, 224);
+        border-left-style: solid;
+        border-left-width: 1px;
+        border-right-color: rgb(224, 224, 224);
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-top-color: rgb(224, 224, 224);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-top-style: solid;
+        border-top-width: 1px;
+        box-sizing: border-box;
+        color: rgb(116, 125, 138);
+        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 13px;
+        height: 33px;
+        line-height: 19px;
+        min-height: 33px;
+        outline: 0;
+        padding-bottom: 6px;
+        padding-left: 6px;
+        padding-right: 6px;
+        padding-top: 6px;
+        transition-delay: 0s, 0s;
+        transition-duration: 0.2s, 0.2s;
+        transition-property: border, box-shadow;
+        transition-timing-function: linear, linear;
+        vertical-align: middle;
+        flex-grow: 3;
+        background-position: right center;
+        background-repeat: no-repeat;
+      }
+
+      input:required:invalid, input:focus:invalid {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAeVJREFUeNqkU01oE1EQ/mazSTdRmqSxLVSJVKU9RYoHD8WfHr16kh5EFA8eSy6hXrwUPBSKZ6E9V1CU4tGf0DZWDEQrGkhprRDbCvlpavan3ezu+LLSUnADLZnHwHvzmJlvvpkhZkY7IqFNaTuAfPhhP/8Uo87SGSaDsP27hgYM/lUpy6lHdqsAtM+BPfvqKp3ufYKwcgmWCug6oKmrrG3PoaqngWjdd/922hOBs5C/jJA6x7AiUt8VYVUAVQXXShfIqCYRMZO8/N1N+B8H1sOUwivpSUSVCJ2MAjtVwBAIdv+AQkHQqbOgc+fBvorjyQENDcch16/BtkQdAlC4E6jrYHGgGU18Io3gmhzJuwub6/fQJYNi/YBpCifhbDaAPXFvCBVxXbvfbNGFeN8DkjogWAd8DljV3KRutcEAeHMN/HXZ4p9bhncJHCyhNx52R0Kv/XNuQvYBnM+CP7xddXL5KaJw0TMAF8qjnMvegeK/SLHubhpKDKIrJDlvXoMX3y9xcSMZyBQ+tpyk5hzsa2Ns7LGdfWdbL6fZvHn92d7dgROH/730YBLtiZmEdGPkFnhX4kxmjVe2xgPfCtrRd6GHRtEh9zsL8xVe+pwSzj+OtwvletZZ/wLeKD71L+ZeHHWZ/gowABkp7AwwnEjFAAAAAElFTkSuQmCC);
+      }
+
+      input:required:valid {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAepJREFUeNrEk79PFEEUx9/uDDd7v/AAQQnEQokmJCRGwc7/QeM/YGVxsZJQYI/EhCChICYmUJigNBSGzobQaI5SaYRw6imne0d2D/bYmZ3dGd+YQKEHYiyc5GUyb3Y+77vfeWNpreFfhvXfAWAAJtbKi7dff1rWK9vPHx3mThP2Iaipk5EzTg8Qmru38H7izmkFHAF4WH1R52654PR0Oamzj2dKxYt/Bbg1OPZuY3d9aU82VGem/5LtnJscLxWzfzRxaWNqWJP0XUadIbSzu5DuvUJpzq7sfYBKsP1GJeLB+PWpt8cCXm4+2+zLXx4guKiLXWA2Nc5ChOuacMEPv20FkT+dIawyenVi5VcAbcigWzXLeNiDRCdwId0LFm5IUMBIBgrp8wOEsFlfeCGm23/zoBZWn9a4C314A1nCoM1OAVccuGyCkPs/P+pIdVIOkG9pIh6YlyqCrwhRKD3GygK9PUBImIQQxRi4b2O+JcCLg8+e8NZiLVEygwCrWpYF0jQJziYU/ho2TUuCPTn8hHcQNuZy1/94sAMOzQHDeqaij7Cd8Dt8CatGhX3iWxgtFW/m29pnUjR7TSQcRCIAVW1FSr6KAVYdi+5Pj8yunviYHq7f72po3Y9dbi7CxzDO1+duzCXH9cEPAQYAhJELY/AqBtwAAAAASUVORK5CYII=);
+      }
+
+      input[disabled] {
+        background-color: rgba(255, 255, 255, 0.5);
+        border-bottom-color: rgba(0, 0, 0, 0);
+        border-left-color: rgba(0, 0, 0, 0);
+        border-right-color: rgba(0, 0, 0, 0);
+        border-top-color: rgba(0, 0, 0, 0);
+        color: #747D8A;
+        cursor: not-allowed;
+      }
+
+      .btn {
+        border-radius: 3px;
+        box-shadow: none;
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+        background-color: #009ddc;
+        background-image: -moz-linear-gradient(top, #009ddc, #009ddc);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#009ddc), to(#009ddc));
+        background-image: -webkit-linear-gradient(top, #009ddc, #009ddc);
+        background-image: -o-linear-gradient(top, #009ddc, #009ddc);
+        background-image: linear-gradient(to bottom, #009ddc, #009ddc);
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#009ddc', endColorstr='#009ddc', GradientType=0);
+        border-color: #009ddc #009ddc #d9d9d9;
+        border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+        *background-color: #009ddc;
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+        padding: 7px 10px;
+        border: 1px solid #d6dadd;
+        text-shadow: none;
+        min-width: 75px;
+        font-weight: 400;
+        outline: 0;
+        flex-grow: 1;
+      }
+
+      .btn:hover,.btn:focus,.btn:active,.btn.active,.btn.disabled,.btn[disabled] {
+        color: #fff;
+        background-color: #18c489;
+        *background-color: #15ad79
+      }
+
+      .btn:active,.btn.active {
+        background-color: #009ddc
+      }
+
+      .btn:hover {
+        color: #fff
+      }
+
+      .btn-primary {
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+        background-color: #18c489;
+        background-image: -moz-linear-gradient(top, #18c489, #18c489);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#18c489), to(#18c489));
+        background-image: -webkit-linear-gradient(top, #18c489, #18c489);
+        background-image: -o-linear-gradient(top, #18c489, #18c489);
+        background-image: linear-gradient(to bottom, #18c489, #18c489);
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF18C489', endColorstr='#FF18C489', GradientType=0);
+        border-color: #18c489 #18c489 #108059;
+        border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+        *background-color: #18c489;
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+        border: 1px solid #18c489;
+        text-shadow: none
+      }
+
+      .btn-primary:hover,.btn-primary:focus,.btn-primary:active,.btn-primary.active,.btn-primary.disabled,.btn-primary[disabled] {
+        color: #fff;
+        background-color: #18c489;
+        background-color: #15ad79
+      }
+
+      .btn-primary:active,.btn-primary.active {
+        background-color: #129769
+      }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="//ajax.deskapi.com/libs/desk/canvas/1.0.0/desk-canvas-all.js"></script>
+    <script>
+      init = (function() {
+        Object.defineProperty(window.location, 'query', {
+          get: function() {
+            this._query = this._query || (function(a) {
+              if (a == '') return {}
+              var b = {}
+              for (var i = 0; i < a.length; ++i) {
+                var p = a[i].split('=')
+                if (p.length != 2) continue;
+                b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, ' '))
+              }
+              return b
+            })(this.search.substr(1).split('&'))
+            return this._query
+          }
+        })
+
+        Desk.canvas(function() {
+          var input  = document.getElementById('url')
+            , button = document.getElementById('btn')
+
+          button.addEventListener('click', function() {
+            if (button.className.indexOf('btn-primary') !== -1) {
+              return window.open(input.value, '_blank')
+            }
+
+            if (!input.validity.valid) {
+              return alert('Please enter a valid URL!')
+            }
+
+            gapi.client.urlshortener.url.insert({
+              longUrl: input.value
+            }).then(function(response) {
+              if (response.status === 200) {
+                input.value = response.result.id
+                input.setAttribute('disabled', 'disabled')
+                button.classList.add('btn-primary')
+                button.innerText = 'View'
+              }
+            }, function(reason) {
+              console.log(reason.result.error.message);
+            })
+          })
+        })
+
+        return function() {
+          gapi.client.setApiKey(window.location.query['api_key'])
+          gapi.client.load('urlshortener', 'v1')
+        }
+      }())
+    </script>
+    <script src="//apis.google.com/js/client.js?onload=init"></script>
+  </head>
+  <body>
+    <input id="url" type="url" placeholder="https://longurl.example.com" pattern="^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$" required>
+    <button id="btn" class="btn">Go</button>
+  </body>
+</html>
