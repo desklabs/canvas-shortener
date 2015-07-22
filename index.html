@@ -77,7 +77,7 @@
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAepJREFUeNrEk79PFEEUx9/uDDd7v/AAQQnEQokmJCRGwc7/QeM/YGVxsZJQYI/EhCChICYmUJigNBSGzobQaI5SaYRw6imne0d2D/bYmZ3dGd+YQKEHYiyc5GUyb3Y+77vfeWNpreFfhvXfAWAAJtbKi7dff1rWK9vPHx3mThP2Iaipk5EzTg8Qmru38H7izmkFHAF4WH1R52654PR0Oamzj2dKxYt/Bbg1OPZuY3d9aU82VGem/5LtnJscLxWzfzRxaWNqWJP0XUadIbSzu5DuvUJpzq7sfYBKsP1GJeLB+PWpt8cCXm4+2+zLXx4guKiLXWA2Nc5ChOuacMEPv20FkT+dIawyenVi5VcAbcigWzXLeNiDRCdwId0LFm5IUMBIBgrp8wOEsFlfeCGm23/zoBZWn9a4C314A1nCoM1OAVccuGyCkPs/P+pIdVIOkG9pIh6YlyqCrwhRKD3GygK9PUBImIQQxRi4b2O+JcCLg8+e8NZiLVEygwCrWpYF0jQJziYU/ho2TUuCPTn8hHcQNuZy1/94sAMOzQHDeqaij7Cd8Dt8CatGhX3iWxgtFW/m29pnUjR7TSQcRCIAVW1FSr6KAVYdi+5Pj8yunviYHq7f72po3Y9dbi7CxzDO1+duzCXH9cEPAQYAhJELY/AqBtwAAAAASUVORK5CYII=);
       }
 
-      input[disabled] {
+      input[readonly] {
         background-color: rgba(255, 255, 255, 0.5);
         border-bottom-color: rgba(0, 0, 0, 0);
         border-left-color: rgba(0, 0, 0, 0);
@@ -127,33 +127,33 @@
         color: #fff
       }
 
-      .btn-primary {
+      .btn-cancel {
         color: #fff;
         text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
-        background-color: #18c489;
-        background-image: -moz-linear-gradient(top, #18c489, #18c489);
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#18c489), to(#18c489));
-        background-image: -webkit-linear-gradient(top, #18c489, #18c489);
-        background-image: -o-linear-gradient(top, #18c489, #18c489);
-        background-image: linear-gradient(to bottom, #18c489, #18c489);
+        background-color: #cc3e4a;
+        background-image: -moz-linear-gradient(top, #cc3e4a, #cc3e4a);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#cc3e4a), to(#cc3e4a));
+        background-image: -webkit-linear-gradient(top, #cc3e4a, #cc3e4a);
+        background-image: -o-linear-gradient(top, #cc3e4a, #cc3e4a);
+        background-image: linear-gradient(to bottom, #cc3e4a, #cc3e4a);
         background-repeat: repeat-x;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF18C489', endColorstr='#FF18C489', GradientType=0);
-        border-color: #18c489 #18c489 #108059;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFCC3E4A', endColorstr='#FFCC3E4A', GradientType=0);
+        border-color: #cc3e4a #cc3e4a #962831;
         border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
-        *background-color: #18c489;
+        background-color: #cc3e4a;
         filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-        border: 1px solid #18c489;
+        border: 1px solid #c63441;
         text-shadow: none
       }
 
-      .btn-primary:hover,.btn-primary:focus,.btn-primary:active,.btn-primary.active,.btn-primary.disabled,.btn-primary[disabled] {
+      .btn-cancel:hover,.btn-cancel:focus,.btn-cancel:active,.btn-cancel.active,.btn-cancel.disabled,.btn-cancel[disabled] {
         color: #fff;
-        background-color: #18c489;
-        background-color: #15ad79
+        background-color: #cc3e4a;
+        background-color: #be323e
       }
 
-      .btn-primary:active,.btn-primary.active {
-        background-color: #129769
+      .btn-cancel:active,.btn-cancel.active {
+        background-color: #aa2d38
       }
     </style>
     <!--[if lt IE 9]>
@@ -183,8 +183,13 @@
             , button = document.getElementById('btn')
 
           button.addEventListener('click', function() {
-            if (button.className.indexOf('btn-primary') !== -1) {
-              return window.open(input.value, '_blank')
+            if (button.className.indexOf('btn-cancel') !== -1) {
+              input.value = ''
+              input.removeAttribute('readonly')
+              input.focus()
+              button.classList.remove('btn-cancel')
+              button.innerText = 'Go'
+              return;
             }
 
             if (!input.validity.valid) {
@@ -196,9 +201,10 @@
             }).then(function(response) {
               if (response.status === 200) {
                 input.value = response.result.id
-                input.setAttribute('disabled', 'disabled')
-                button.classList.add('btn-primary')
-                button.innerText = 'View'
+                input.setAttribute('readonly', 'readonly')
+                input.select()
+                button.classList.add('btn-cancel')
+                button.innerText = 'Reset'
               }
             }, function(reason) {
               console.log(reason.result.error.message);
